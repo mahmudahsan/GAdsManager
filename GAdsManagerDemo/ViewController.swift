@@ -24,18 +24,68 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+enum AdIds : String {
+    case banner = "ca-app-pub-3940256099942544/2934735716" // test id
+    case interestial = "ca-app-pub-3940256099942544/4411468910" // test id
+    /*
+     https://developers.google.com/admob/ios/banner
+     https://developers.google.com/admob/ios/interstitial
+     */
+}
 
+let testDevices = [
+    "6e429ada4c3d0bacdd26e0704df1cfff",   //iPhone 5s
+    "7e511268fe0e0942360666821f6d5b92", // iPhone 6
+    "ba46a538145922976119616abaac7a2e" // iPad Air 2
+]
+
+class ViewController: UIViewController {
+    @IBOutlet weak var btnBanner: UIButton!
+    @IBOutlet weak var btnBannerRem: UIButton!
+    var adStatus: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        btnBanner.isHidden = true
+        btnBannerRem.isHidden = true
+        
+        //Call admanager with a delay so that safeAreaGuide value calculated correctly
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            AdManager.shared.bannerDelegate = self
+            AdManager.shared.setTestDevics(testDevices: testDevices)
+            AdManager.shared.createBannerAdInContainerView(viewController: self, unitId: AdIds.banner.rawValue)
+        }
     }
-
+    
+    @IBAction func hideAds(_ sender: Any) {
+        if adStatus {
+            AdManager.shared.adBannerHide()
+            adStatus = false
+            let btn = sender as? UIButton
+            btn?.setTitle("Show Ads", for: .normal)
+        }
+        else {
+            AdManager.shared.adBannerShow()
+            adStatus = true
+            let btn = sender as? UIButton
+            btn?.setTitle("Hide Ads", for: .normal)
+        }
+    }
+    
+    @IBAction func removeBannerPermanently(_ sender: Any) {
+        AdManager.shared.adBannerRemovePermanently()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+}
 
-
+extension ViewController : AdManagerBannerDelegate {
+    func adViewDidReceiveAd() {
+        btnBanner.isHidden = false
+        btnBannerRem.isHidden = false
+    }
 }
 
