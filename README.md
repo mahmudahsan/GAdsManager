@@ -7,16 +7,24 @@
 </p>
 
 <p>
-GAdsManager is a library which I created to use all my iOS apps to show ads. The library is developed based on Google Mobile Ads Sdk. Currently I am refactoring and improving it so I am not submitting it to cocoapod yet. Basically I used customized AdManager for my different apps. In This library, I am combining all of them so that once library can handle in different kind of apps.  
+GAdsManager is a library which I created to use all my iOS apps to show ads. The librarsoy is developed based on Google Mobile Ads Sdk. Currently I am refactoring my old codebase and improving it to make a reusable library for all. In This library, I am combining all of the fetures over time including banner ads, interestial, reward video etc. so that onc library can handle in different kind of apps.  
 </p>
 <p>
 This GAdsManager is a loosely coupled component. So its easy to use in any iOS project. And it is also possible to replace Google AdMob by other 3rd party ad network library. As it's a loosely coupled, it doesn't need to update the ads integration code in the app just need to update GAdsManager layer.
 </p>
 
-## Features
+## Features [ Version 0.1 ]
 
 - [X] Loosely coupled component
 - [X] Banner ads following Google AdMob Guideline
+- [X] Banner ads with 5 pixel black border above 
+- [X] Banner ads automatically adjust for portrait and landscape
+- [X] Banner ads works on both iPhone and iPad
+
+## Upcoming Features
+
+- [X] Interestial Ads
+- [X] Reward Video Ads
 
 
 <p align="center">
