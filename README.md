@@ -41,6 +41,8 @@ Integrate bottom banner ads within a UIViewController via code:
 import UIKit
 
 enum AdIds : String {
+    /** REPLACE THE VALUES BY YOUR APP AND AD IDS **/
+    case appId  = "ca-app-pub-1873550908728968~3031818739" //app id
     case banner = "ca-app-pub-3940256099942544/2934735716" // test id
     case interestial = "ca-app-pub-3940256099942544/4411468910" // test id
 }
@@ -52,8 +54,9 @@ let testDevices = [
 
 //Call admanager with a delay so that safeAreaGuide value calculated correctly
 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-    AdManager.shared.bannerDelegate = self
+    AdManager.shared.configureWithApp(AdIds.appId.rawValue)
     AdManager.shared.setTestDevics(testDevices: testDevices)
+    AdManager.shared.bannerDelegate = self
     AdManager.shared.createBannerAdInContainerView(viewController: self, unitId: AdIds.banner.rawValue)
 }
 
