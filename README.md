@@ -13,7 +13,7 @@ GAdsManager is a library which I created to use all my iOS apps to show ads. The
 This GAdsManager is a loosely coupled component. So its easy to use in any iOS project. And it is also possible to replace Google AdMob by other 3rd party ad network library. As it's a loosely coupled, it doesn't need to update the ads integration code in the app just need to update GAdsManager layer.
 </p>
 
-## Features [ Version 0.1 ]
+## Features
 
 - [X] Loosely coupled component
 - [X] Banner ads following Google AdMob Guideline
@@ -71,6 +71,8 @@ public protocol AdManagerBannerDelegate{
     func adViewDidDismissScreen()
 }
 ```
+## Dependency
+- Add pod 'Google-Mobile-Ads-SDK' in your podfile and install Google-Mobile-Ads-Sdk Framework in your project via CocoaPods.
 
 ## Usage in an iOS application
 
