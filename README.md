@@ -20,10 +20,10 @@ This GAdsManager is a loosely coupled component. So its easy to use in any iOS p
 
 
 <p align="center">
-    <img src="banner.png" width="1000" max-width="40%" alt="Banner Bottom" />
-    <img src="bannerLand.png" width="1000" max-width="40%" alt="Banner Bottom Landscape" />
-    <img src="bannerLandiPad.png" width="1000" max-width="30%" alt="Banner Bottom iPad Landscape" />
-    <img src="bannerPortraitiPad.png" width="755" max-width="30%" alt="Banner Bottom iPad Portrait" />
+    <img src="banner.png" width="700" alt="Banner Bottom" />
+    <img src="bannerLand.png" width="700" alt="Banner Bottom Landscape" />
+    <img src="bannerLandiPad.png" width="800" alt="Banner Bottom iPad Landscape" />
+    <img src="bannerPortraitiPad.png" width="500"  alt="Banner Bottom iPad Portrait" />
 </p>	
 
 ## Examples
