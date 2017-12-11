@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		371E19C42744198D78D3725A /* Pods_GAdsManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F219F2A6A8ED3EED0AE8A3BB /* Pods_GAdsManager.framework */; };
 		51F86F351FA617AE002F76CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F341FA617AE002F76CD /* AppDelegate.swift */; };
 		51F86F371FA617AE002F76CD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F361FA617AE002F76CD /* ViewController.swift */; };
 		51F86F3A1FA617AE002F76CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51F86F381FA617AE002F76CD /* Main.storyboard */; };
@@ -15,7 +16,6 @@
 		51F86F4A1FA617AE002F76CD /* GAdsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F491FA617AE002F76CD /* GAdsManagerTests.swift */; };
 		51F86F571FA61833002F76CD /* GAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F561FA61833002F76CD /* GAdsManager.swift */; };
 		51F86F581FA61833002F76CD /* GAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F561FA61833002F76CD /* GAdsManager.swift */; };
-		A5749D6899837BFEF1EB9DA0 /* Pods_GAdsManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3076BB79E094FF4D0AA4C40B /* Pods_GAdsManager.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +29,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3076BB79E094FF4D0AA4C40B /* Pods_GAdsManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GAdsManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51F86F311FA617AE002F76CD /* GAdsManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GAdsManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51F86F341FA617AE002F76CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51F86F361FA617AE002F76CD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +42,7 @@
 		51F86F561FA61833002F76CD /* GAdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAdsManager.swift; sourceTree = "<group>"; };
 		8CB274F09B0140AABBEAFA21 /* Pods-GAdsManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GAdsManager.release.xcconfig"; path = "Pods/Target Support Files/Pods-GAdsManager/Pods-GAdsManager.release.xcconfig"; sourceTree = "<group>"; };
 		E878026B685C2351BB15DF04 /* Pods-GAdsManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GAdsManager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GAdsManager/Pods-GAdsManager.debug.xcconfig"; sourceTree = "<group>"; };
+		F219F2A6A8ED3EED0AE8A3BB /* Pods_GAdsManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GAdsManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5749D6899837BFEF1EB9DA0 /* Pods_GAdsManager.framework in Frameworks */,
+				371E19C42744198D78D3725A /* Pods_GAdsManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +67,7 @@
 		243906EEDEFE2A504ABFD886 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3076BB79E094FF4D0AA4C40B /* Pods_GAdsManager.framework */,
+				F219F2A6A8ED3EED0AE8A3BB /* Pods_GAdsManager.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
