@@ -53,7 +53,7 @@ extension AdManagerBannerDelegate {
     func adViewDidDismissScreen() {}
 }
 
-public class AdManager: NSObject, GADInterstitialDelegate {
+public class AdManager: NSObject {
     static let shared = AdManager()
     public var ADS_DISABLED = false
     public var bannerDelegate:AdManagerBannerDelegate?
@@ -97,8 +97,25 @@ public class AdManager: NSObject, GADInterstitialDelegate {
         if let bannerViewContainer = self.bannerViewContainer{
             if let adBanner = bannerViewContainer.viewWithTag(ViewTag.adBanner.rawValue) {
                 print("Banner Ad Accessing")
-                adBanner.frame = CGRect(x: adBanner.frame.origin.x, y: borderSizeBetweenBannerAndContent, width: adBanner.frame.size.width, height: adBanner.frame.size.height)
-                adBanner.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin, .flexibleRightMargin]
+                adBanner.frame = CGRect(x: 0, y: borderSizeBetweenBannerAndContent, width: adBanner.frame.size.width, height: adBanner.frame.size.height)
+                //adBanner.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin, .flexibleRightMargin]
+                adBanner.translatesAutoresizingMaskIntoConstraints = false
+                bannerViewContainer.addConstraints(
+                    [NSLayoutConstraint(item: adBanner,
+                                        attribute: .firstBaseline,
+                                        relatedBy: .equal,
+                                        toItem: bannerViewContainer,
+                                        attribute: .top,
+                                        multiplier: 1,
+                                        constant: borderSizeBetweenBannerAndContent),
+                     NSLayoutConstraint(item: adBanner,
+                                        attribute: .centerX,
+                                        relatedBy: .equal,
+                                        toItem: bannerViewContainer,
+                                        attribute: .centerX,
+                                        multiplier: 1,
+                                        constant: 0)
+                    ])
             }
         }
     }
@@ -147,7 +164,8 @@ public class AdManager: NSObject, GADInterstitialDelegate {
                                            width: viewController.view.frame.size.width,
                                            height: viewController.view.frame.size.height)
         adContainerview.backgroundColor = UIColor.black
-        adContainerview.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin]
+        adContainerview.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin, .flexibleRightMargin, .flexibleWidth]
+        
         self.bannerViewContainer = adContainerview
         viewController.view.addSubview(adContainerview)
         viewController.view.bringSubview(toFront: adContainerview)

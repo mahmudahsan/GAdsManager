@@ -13,16 +13,18 @@ GAdsManager is a library which I created to use all my iOS apps to show ads. The
 This GAdsManager is a loosely coupled component. So its easy to use in any iOS project. And it is also possible to replace Google AdMob by other 3rd party ad network library. As it's a loosely coupled, it doesn't need to update the ads integration code in the app just need to update GAdsManager layer.
 </p>
 
-
-<p align="center">
-    <img src="banner.png" width="1000" max-width="50%" alt="Banner Bottom" />
-</p>	
-
 ## Features
 
 - [X] Loosely coupled component
 - [X] Banner ads following Google AdMob Guideline
 
+
+<p align="center">
+    <img src="banner.png" width="1000" max-width="50%" alt="Banner Bottom" />
+    <img src="bannerLand.png" width="1000" max-width="50%" alt="Banner Bottom Landscape" />
+    <img src="bannerLandiPad.png" width="100" max-width="50%" alt="Banner Bottom iPad Landscape" />
+    <img src="bannerPortraitiPad.png" width="755" max-width="50%" alt="Banner Bottom iPad Portrait" />
+</p>	
 
 ## Examples
 
