@@ -72,11 +72,21 @@ public class AdManager: NSObject {
     
     override init() {
         super.init()
-        
+    }
+    
+    public func configureWithApp(_ id : String){
+         GADMobileAds.configure(withApplicationID: id)
     }
     
     public func setTestDevics(testDevices: [String]){
         self.testDevices = testDevices
+        self.testDevices = [kGADSimulatorID as! String ] //all simulator
+    }
+    
+    private func getGADRequest() -> GADRequest{
+        let request = GADRequest()
+        request.testDevices = self.testDevices
+        return request
     }
     
     private func createAndLoadBannerAd(unitId:String, rootViewController:UIViewController) -> GADBannerView? {
@@ -85,7 +95,7 @@ public class AdManager: NSObject {
         bannerView.adUnitID = unitId
         bannerView.delegate = self
         bannerView.rootViewController = rootViewController
-        bannerView.load(GADRequest())
+        bannerView.load(getGADRequest())
         return bannerView
     }
     

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		371E19C42744198D78D3725A /* Pods_GAdsManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F219F2A6A8ED3EED0AE8A3BB /* Pods_GAdsManager.framework */; };
+		2BDEF457E75F24622984F126 /* libPods-GAdsManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A44A51C7CBA081931CB9BD03 /* libPods-GAdsManager.a */; };
 		51F86F351FA617AE002F76CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F341FA617AE002F76CD /* AppDelegate.swift */; };
 		51F86F371FA617AE002F76CD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F361FA617AE002F76CD /* ViewController.swift */; };
 		51F86F3A1FA617AE002F76CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51F86F381FA617AE002F76CD /* Main.storyboard */; };
@@ -29,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		513754091FDEEAEF0015A6BF /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		5137540C1FDEEAEF0015A6BF /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		51F86F311FA617AE002F76CD /* GAdsManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GAdsManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		51F86F341FA617AE002F76CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51F86F361FA617AE002F76CD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -41,8 +43,8 @@
 		51F86F4B1FA617AE002F76CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51F86F561FA61833002F76CD /* GAdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAdsManager.swift; sourceTree = "<group>"; };
 		8CB274F09B0140AABBEAFA21 /* Pods-GAdsManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GAdsManager.release.xcconfig"; path = "Pods/Target Support Files/Pods-GAdsManager/Pods-GAdsManager.release.xcconfig"; sourceTree = "<group>"; };
+		A44A51C7CBA081931CB9BD03 /* libPods-GAdsManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GAdsManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E878026B685C2351BB15DF04 /* Pods-GAdsManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GAdsManager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GAdsManager/Pods-GAdsManager.debug.xcconfig"; sourceTree = "<group>"; };
-		F219F2A6A8ED3EED0AE8A3BB /* Pods_GAdsManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GAdsManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				371E19C42744198D78D3725A /* Pods_GAdsManager.framework in Frameworks */,
+				2BDEF457E75F24622984F126 /* libPods-GAdsManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,9 +69,36 @@
 		243906EEDEFE2A504ABFD886 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F219F2A6A8ED3EED0AE8A3BB /* Pods_GAdsManager.framework */,
+				513754081FDEEAEF0015A6BF /* Google-Mobile-Ads-SDK */,
+				A44A51C7CBA081931CB9BD03 /* libPods-GAdsManager.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		513754081FDEEAEF0015A6BF /* Google-Mobile-Ads-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				513754091FDEEAEF0015A6BF /* README.txt */,
+				5137540A1FDEEAEF0015A6BF /* Frameworks */,
+			);
+			name = "Google-Mobile-Ads-SDK";
+			path = "Pods/Google-Mobile-Ads-SDK";
+			sourceTree = "<group>";
+		};
+		5137540A1FDEEAEF0015A6BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5137540B1FDEEAEF0015A6BF /* frameworks */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		5137540B1FDEEAEF0015A6BF /* frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5137540C1FDEEAEF0015A6BF /* GoogleMobileAds.framework */,
+			);
+			path = frameworks;
 			sourceTree = "<group>";
 		};
 		51F86F281FA617AE002F76CD = {
@@ -450,9 +479,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E878026B685C2351BB15DF04 /* Pods-GAdsManager.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z4J88UVN9G;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/GAdsManagerDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -468,9 +502,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8CB274F09B0140AABBEAFA21 /* Pods-GAdsManager.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z4J88UVN9G;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/GAdsManagerDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

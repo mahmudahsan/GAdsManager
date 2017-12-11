@@ -15,7 +15,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "9.0"
   s.source       = { :git => "https://github.com/mahmudahsan/GAdsManager.git", :tag => s.version.to_s }
   s.source_files = "Source/**/*.{swift}"
-  s.frameworks   = 'UIKit', 'Foundation'
 
-  s.dependency     'Google-Mobile-Ads-SDK'
+  s.frameworks   = 'UIKit', 'Foundation'
+  s.vendored_frameworks = "Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework"
+  #s.dependency     'Google-Mobile-Ads-SDK'
 end
