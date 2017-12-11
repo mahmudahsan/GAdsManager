@@ -3,6 +3,6 @@ target 'GAdsManager' do
 use_frameworks!
 
 #Google
-  pod 'Firebase/AdMob'
+  pod 'Google-Mobile-Ads-SDK'
 
 end
