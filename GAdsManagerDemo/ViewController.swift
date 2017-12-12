@@ -58,6 +58,7 @@ class ViewController: UIViewController {
             
             //request and save in memory interestial ads
             AdManager.shared.createAndLoadInterstitial(AdIds.interestial.rawValue)
+            AdManager.shared.delegateInterestial = self
         }
     }
     
