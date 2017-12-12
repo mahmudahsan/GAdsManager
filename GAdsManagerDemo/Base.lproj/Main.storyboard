@@ -38,10 +38,22 @@
                                     <action selector="hideAds:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T8q-eK-8n1"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQ4-g6-tyn">
+                                <rect key="frame" x="123" y="200" width="128" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="128" id="Lah-Rl-Otv"/>
+                                    <constraint firstAttribute="height" constant="28" id="pzZ-gk-0Mp"/>
+                                </constraints>
+                                <state key="normal" title="Show Interestial"/>
+                                <connections>
+                                    <action selector="showInterestial:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MTo-mT-Ccr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="tGM-aL-zZE" firstAttribute="centerX" secondItem="ry2-bC-Qas" secondAttribute="centerX" id="3jh-0r-ieG"/>
+                            <constraint firstItem="VQ4-g6-tyn" firstAttribute="top" secondItem="tGM-aL-zZE" secondAttribute="bottom" constant="8" id="AsC-i3-fWa"/>
                             <constraint firstItem="ry2-bC-Qas" firstAttribute="top" secondItem="9N5-L3-1cX" secondAttribute="bottom" constant="56" id="ITL-Lg-ZK2"/>
                             <constraint firstItem="9N5-L3-1cX" firstAttribute="leading" secondItem="ne8-dt-OUU" secondAttribute="leading" constant="31" id="Ux1-BY-vzg"/>
                             <constraint firstItem="ne8-dt-OUU" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ry2-bC-Qas" secondAttribute="trailing" constant="101" id="h9y-fQ-YUb"/>
@@ -49,6 +61,7 @@
                             <constraint firstItem="ry2-bC-Qas" firstAttribute="leading" relation="lessThanOrEqual" secondItem="ne8-dt-OUU" secondAttribute="leading" constant="100" id="jg1-Yz-FLs"/>
                             <constraint firstItem="9N5-L3-1cX" firstAttribute="top" secondItem="ne8-dt-OUU" secondAttribute="top" constant="27" id="kKE-MM-cT2"/>
                             <constraint firstItem="ne8-dt-OUU" firstAttribute="trailing" secondItem="9N5-L3-1cX" secondAttribute="trailing" constant="16" id="qco-cb-4U1"/>
+                            <constraint firstItem="VQ4-g6-tyn" firstAttribute="centerX" secondItem="tGM-aL-zZE" secondAttribute="centerX" id="wzN-D9-yEJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ne8-dt-OUU"/>
                     </view>

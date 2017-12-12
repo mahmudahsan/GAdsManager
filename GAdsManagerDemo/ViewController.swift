@@ -23,6 +23,7 @@
  */
 
 import UIKit
+import GoogleMobileAds
 
 enum AdIds : String {
     /** REPLACE THE VALUES BY YOUR APP AND AD IDS **/
@@ -52,7 +53,11 @@ class ViewController: UIViewController {
             AdManager.shared.configureWithApp(AdIds.appId.rawValue)
             AdManager.shared.setTestDevics(testDevices: testDevices)
             AdManager.shared.bannerDelegate = self
+            
             AdManager.shared.createBannerAdInContainerView(viewController: self, unitId: AdIds.banner.rawValue)
+            
+            //request and save in memory interestial ads
+            AdManager.shared.createAndLoadInterstitial(AdIds.interestial.rawValue)
         }
     }
     
@@ -79,6 +84,12 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    @IBAction func showInterestial(_ sender: Any) {
+        let isReady = AdManager.shared.showInterestial(self)
+    }
+    
 }
 
 extension ViewController : AdManagerBannerDelegate {
@@ -88,3 +99,8 @@ extension ViewController : AdManagerBannerDelegate {
     }
 }
 
+extension ViewController : AdManagerInterestialDelegate {
+    func interestialWillPresentScreen() {
+        print("Interestial is showing")
+    }
+}

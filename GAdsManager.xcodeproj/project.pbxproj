@@ -15,7 +15,7 @@
 		51F86F4A1FA617AE002F76CD /* GAdsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F491FA617AE002F76CD /* GAdsManagerTests.swift */; };
 		51F86F571FA61833002F76CD /* GAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F561FA61833002F76CD /* GAdsManager.swift */; };
 		51F86F581FA61833002F76CD /* GAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F86F561FA61833002F76CD /* GAdsManager.swift */; };
-		A0103CD41AD8D7F8737B04A7 /* Pods_GAdsManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB4C583FF38C5B6ACA123C0 /* Pods_GAdsManager.framework */; };
+		DF13A62F67E41CA3FCAE79DF /* libPods-GAdsManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E205A9C4ED90180B17184E61 /* libPods-GAdsManager.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +31,7 @@
 /* Begin PBXFileReference section */
 		513754091FDEEAEF0015A6BF /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		5137540C1FDEEAEF0015A6BF /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		51851F961FDFAF2C008C744B /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		519802471FDEF4290053DE29 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		5198024A1FDEF4290053DE29 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		5198024D1FDEF4330053DE29 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
@@ -45,8 +46,8 @@
 		51F86F491FA617AE002F76CD /* GAdsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAdsManagerTests.swift; sourceTree = "<group>"; };
 		51F86F4B1FA617AE002F76CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51F86F561FA61833002F76CD /* GAdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAdsManager.swift; sourceTree = "<group>"; };
-		6EB4C583FF38C5B6ACA123C0 /* Pods_GAdsManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GAdsManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CB274F09B0140AABBEAFA21 /* Pods-GAdsManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GAdsManager.release.xcconfig"; path = "Pods/Target Support Files/Pods-GAdsManager/Pods-GAdsManager.release.xcconfig"; sourceTree = "<group>"; };
+		E205A9C4ED90180B17184E61 /* libPods-GAdsManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GAdsManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E878026B685C2351BB15DF04 /* Pods-GAdsManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GAdsManager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GAdsManager/Pods-GAdsManager.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0103CD41AD8D7F8737B04A7 /* Pods_GAdsManager.framework in Frameworks */,
+				DF13A62F67E41CA3FCAE79DF /* libPods-GAdsManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,9 +74,10 @@
 			isa = PBXGroup;
 			children = (
 				5198024B1FDEF4330053DE29 /* Frameworks */,
+				51851F941FDFAF2C008C744B /* Frameworks */,
 				513754081FDEEAEF0015A6BF /* Google-Mobile-Ads-SDK */,
 				519802461FDEF4290053DE29 /* Google-Mobile-Ads-SDK */,
-				6EB4C583FF38C5B6ACA123C0 /* Pods_GAdsManager.framework */,
+				E205A9C4ED90180B17184E61 /* libPods-GAdsManager.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -102,6 +104,23 @@
 			isa = PBXGroup;
 			children = (
 				5137540C1FDEEAEF0015A6BF /* GoogleMobileAds.framework */,
+			);
+			path = frameworks;
+			sourceTree = "<group>";
+		};
+		51851F941FDFAF2C008C744B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				51851F951FDFAF2C008C744B /* frameworks */,
+			);
+			name = Frameworks;
+			path = "Pods/Google-Mobile-Ads-SDK/Frameworks";
+			sourceTree = "<group>";
+		};
+		51851F951FDFAF2C008C744B /* frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				51851F961FDFAF2C008C744B /* GoogleMobileAds.framework */,
 			);
 			path = frameworks;
 			sourceTree = "<group>";
@@ -450,6 +469,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -507,6 +527,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

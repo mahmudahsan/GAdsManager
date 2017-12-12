@@ -32,8 +32,11 @@ enum ViewTag : Int{
 }
 
 public protocol AdManagerInterestialDelegate{
-    func interestialDismissed()
-    func interestialFailed()
+    func interestialDidReceiveAd()
+    func interestialDidFailToReceiveAd()
+    func interestialWillPresentScreen()
+    func interestialWillDismissScreen()
+    func interestialDidDismissScreen()
 }
 
 public protocol AdManagerBannerDelegate{
@@ -53,6 +56,15 @@ extension AdManagerBannerDelegate {
     func adViewDidDismissScreen() {}
 }
 
+//default implementation for optional
+extension AdManagerInterestialDelegate {
+    func interestialDidReceiveAd() {}
+    func interestialDidFailToReceiveAd() {}
+    func interestialWillPresentScreen() {}
+    func interestialWillDismissScreen() {}
+    func interestialDidDismissScreen() {}
+}
+
 public class AdManager: NSObject {
     static let shared = AdManager()
     public var ADS_DISABLED = false
@@ -62,6 +74,7 @@ public class AdManager: NSObject {
     private var bannerViewContainer:UIView?
     
     var interestial:GADInterstitial?
+    var delegateInterestial: AdManagerInterestialDelegate?
     var delegate: AdManagerBannerDelegate?
     
     private var testDevices:[String] = [""]
@@ -192,6 +205,26 @@ public class AdManager: NSObject {
         
         return 0.0
     }
+    
+    // MARK:- Interestial
+    public func createAndLoadInterstitial(_ adUnit: String){
+        interestial = GADInterstitial(adUnitID: adUnit)
+        interestial?.delegate = self
+        interestial?.load(getGADRequest())
+    }
+    
+    public func showInterestial(_ viewController: UIViewController) -> Bool{
+        if let interestial = self.interestial{
+            if interestial.isReady {
+                interestial.present(fromRootViewController: viewController)
+                return true
+            }
+            else {
+                print("Ad wasn't ready")
+            }
+        }
+        return false
+    }
 }
 
 extension AdManager : GADBannerViewDelegate {
@@ -225,5 +258,37 @@ extension AdManager : GADBannerViewDelegate {
     public func adViewDidDismissScreen(_ bannerView: GADBannerView) {
         print("adViewDidDismissScreen")
         bannerDelegate?.adViewDidDismissScreen()
+    }
+}
+
+extension AdManager : GADInterstitialDelegate {
+    /// Tells the delegate an ad request succeeded.
+    public func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+        print("interstitialDidReceiveAd")
+        delegateInterestial?.interestialDidReceiveAd()
+    }
+    
+    /// Tells the delegate an ad request failed.
+    public func interstitial(_ ad: GADInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
+        print("interstitial:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        delegateInterestial?.interestialDidFailToReceiveAd()
+    }
+    
+    /// Tells the delegate that an interstitial will be presented.
+    public func interstitialWillPresentScreen(_ ad: GADInterstitial) {
+        print("interstitialWillPresentScreen")
+        delegateInterestial?.interestialWillPresentScreen()
+    }
+    
+    /// Tells the delegate the interstitial is to be animated off the screen.
+    public func interstitialWillDismissScreen(_ ad: GADInterstitial) {
+        print("interstitialWillDismissScreen")
+        delegateInterestial?.interestialWillDismissScreen()
+    }
+    
+    /// Tells the delegate the interstitial had been animated off the screen.
+    public func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        print("interstitialDidDismissScreen")
+        delegateInterestial?.interestialDidDismissScreen()
     }
 }

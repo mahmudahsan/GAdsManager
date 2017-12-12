@@ -17,5 +17,6 @@ Pod::Spec.new do |s|
   s.source_files = "Source/**/*.{swift}"
 
   s.frameworks   = 'UIKit', 'Foundation', 'GoogleMobileAds'
-  s.dependency     'Google-Mobile-Ads-SDK'
+  s.dependency     'GoogleMobileAds'
+  
 end
