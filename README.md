@@ -20,10 +20,10 @@ This GAdsManager is a loosely coupled component. So its easy to use in any iOS p
 - [X] Banner ads with 5 pixel black border above 
 - [X] Banner ads automatically adjust for portrait and landscape
 - [X] Banner ads works on both iPhone and iPad
+- [X] Interestial ads 
 
 ## Upcoming Features
 
--> Interestial Ads <br />
 -> Reward Video Ads
 
 
@@ -34,7 +34,7 @@ This GAdsManager is a loosely coupled component. So its easy to use in any iOS p
     <img src="bannerPortraitiPad.png" width="500"  alt="Banner Bottom iPad Portrait" />
 </p>	
 
-## Examples
+## Examples Banner
 
 Integrate bottom banner ads within a UIViewController via code:
 ```swift
@@ -71,6 +71,34 @@ public protocol AdManagerBannerDelegate{
     func adViewDidDismissScreen()
 }
 ```
+
+## Examples Interestial
+Request a new Interestial ad which will loaded in memory
+
+```swift
+AdManager.shared.createAndLoadInterstitial(AdIds.interestial.rawValue)
+AdManager.shared.delegateInterestial = self
+```
+Show interestial ads
+```swift
+let isReady = AdManager.shared.showInterestial(self)
+```
+
+Get notification about interestial ads
+```swift
+public protocol AdManagerBannerDelegate{
+    func adViewDidReceiveAd()
+    func adViewDidFailToReceiveAd()
+    func adViewWillPresentScreen()
+    func adViewWillDismissScreen()
+    func adViewDidDismissScreen()
+}
+```
+<p>
+    <img src="interestial.png" width="500"  alt="Interestial Portrait" />    
+</p>
+
+
 ## Dependency
 - Add pod 'Google-Mobile-Ads-SDK' in your podfile and install Google-Mobile-Ads-Sdk Framework in your project via CocoaPods.
 
