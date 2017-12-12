@@ -95,7 +95,7 @@ public protocol AdManagerBannerDelegate{
 }
 ```
 <p>
-    <img src="interestial.png" width="500"  alt="Interestial Portrait" />    
+    <img src="interestial.png" width="300"  alt="Interestial Portrait" />    
 </p>
 
 
