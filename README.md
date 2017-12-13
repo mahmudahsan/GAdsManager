@@ -25,7 +25,7 @@ This GAdsManager is a loosely coupled component. So its easy to use in any iOS p
 
 ## Upcoming Features
 
--> Reward Video Ads
+- [ ] Reward Video Ads
 
 
 <p align="center">
