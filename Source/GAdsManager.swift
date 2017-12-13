@@ -48,7 +48,7 @@ public protocol AdManagerBannerDelegate{
 }
 
 //default implementation for optional
-extension AdManagerBannerDelegate {
+public extension AdManagerBannerDelegate {
     func adViewDidReceiveAd() {}
     func adViewDidFailToReceiveAd() {}
     func adViewWillPresentScreen() {}
@@ -57,7 +57,7 @@ extension AdManagerBannerDelegate {
 }
 
 //default implementation for optional
-extension AdManagerInterestialDelegate {
+public extension AdManagerInterestialDelegate {
     func interestialDidReceiveAd() {}
     func interestialDidFailToReceiveAd() {}
     func interestialWillPresentScreen() {}
@@ -66,29 +66,27 @@ extension AdManagerInterestialDelegate {
 }
 
 public class AdManager: NSObject {
-    static let shared = AdManager()
+    public static let shared = AdManager()
     public var ADS_DISABLED = false
     public var bannerDelegate:AdManagerBannerDelegate?
+    public var delegateInterestial: AdManagerInterestialDelegate?
     
     private var viewController:UIViewController?
     private var bannerViewContainer:UIView?
     
     var interestial:GADInterstitial?
-    var delegateInterestial: AdManagerInterestialDelegate?
-    var delegate: AdManagerBannerDelegate?
-    
     private var testDevices:[String] = [""]
     private var adsInterstialDict = [String : GADInterstitial]()
     
     let borderSizeBetweenBannerAndContent:CGFloat = 5
-
     
-    override init() {
+    
+    public override init() {
         super.init()
     }
     
     public func configureWithApp(_ id : String){
-         GADMobileAds.configure(withApplicationID: id)
+        GADMobileAds.configure(withApplicationID: id)
     }
     
     public func setTestDevics(testDevices: [String]){
@@ -236,7 +234,7 @@ extension AdManager : GADBannerViewDelegate {
     
     /// Tells the delegate an ad request failed.
     public func adView(_ bannerView: GADBannerView,
-                didFailToReceiveAdWithError error: GADRequestError) {
+                       didFailToReceiveAdWithError error: GADRequestError) {
         print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
         bannerDelegate?.adViewDidFailToReceiveAd()
     }
