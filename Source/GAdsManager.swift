@@ -91,7 +91,7 @@ public class AdManager: NSObject {
     
     public func setTestDevics(testDevices: [String]){
         self.testDevices = testDevices
-        self.testDevices = [kGADSimulatorID as! String ] //all simulator
+        self.testDevices += [kGADSimulatorID as! String ] //all simulator
     }
     
     private func getGADRequest() -> GADRequest{
