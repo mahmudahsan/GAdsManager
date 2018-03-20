@@ -31,48 +31,81 @@ enum ViewTag : Int{
     case adBanner
 }
 
-public protocol AdManagerInterestialDelegate{
-    func interestialDidReceiveAd()
-    func interestialDidFailToReceiveAd()
-    func interestialWillPresentScreen()
-    func interestialWillDismissScreen()
-    func interestialDidDismissScreen()
-}
-
 public protocol AdManagerBannerDelegate{
     func adViewDidReceiveAd()
     func adViewDidFailToReceiveAd()
     func adViewWillPresentScreen()
     func adViewWillDismissScreen()
     func adViewDidDismissScreen()
+    func adViewWillLeaveApplication()
 }
 
-//default implementation for optional
+public protocol AdManagerInterestialDelegate{
+    func interestialDidReceiveAd()
+    func interestialDidFailToReceiveAd()
+    func interestialWillPresentScreen()
+    func interestialWillDismissScreen()
+    func interestialDidDismissScreen()
+    func interestialWillLeaveApplication()
+}
+
+public protocol AdManagerRewardDelegate{
+    func rewardAdGiveRewardToUser(type:String, amount: NSDecimalNumber)
+    func rewardAdFailedToLoad()
+    func rewardAdDidReceive(rewardViewController: UIViewController?)
+    func rewardAdDidOpen()
+    func rewardAdDidStartPlaying()
+    func rewardAdDidClose()
+    func rewardAdWillLeaveApplication()
+}
+
+//default implementation AdManagerBannerDelegate
 public extension AdManagerBannerDelegate {
     func adViewDidReceiveAd() {}
     func adViewDidFailToReceiveAd() {}
     func adViewWillPresentScreen() {}
     func adViewWillDismissScreen() {}
     func adViewDidDismissScreen() {}
+    func adViewWillLeaveApplication() {}
 }
 
-//default implementation for optional
+//default implementation AdManagerInterestialDelegate
 public extension AdManagerInterestialDelegate {
     func interestialDidReceiveAd() {}
     func interestialDidFailToReceiveAd() {}
     func interestialWillPresentScreen() {}
     func interestialWillDismissScreen() {}
     func interestialDidDismissScreen() {}
+    func interestialWillLeaveApplication() {}
+}
+
+//default implementation AdManagerRewardDelegate
+public extension AdManagerRewardDelegate{
+    func rewardAdGiveRewardToUser(type:String, amount: NSDecimalNumber) {}
+    func rewardAdFailedToLoad() {}
+    func rewardAdDidReceive(rewardViewController: UIViewController?) {
+        if GADRewardBasedVideoAd.sharedInstance().isReady == true {
+            if let rewardViewController = rewardViewController {
+                GADRewardBasedVideoAd.sharedInstance().present(fromRootViewController: rewardViewController)
+            }
+        }
+    }
+    func rewardAdDidOpen() {}
+    func rewardAdDidStartPlaying() {}
+    func rewardAdDidClose() {}
+    func rewardAdWillLeaveApplication() {}
 }
 
 public class AdManager: NSObject {
     public static let shared = AdManager()
     public var ADS_DISABLED = false
-    public var bannerDelegate:AdManagerBannerDelegate?
+    public var delegateBanner: AdManagerBannerDelegate?
     public var delegateInterestial: AdManagerInterestialDelegate?
+    public var delegateReward: AdManagerRewardDelegate?
     
     private var viewController:UIViewController?
     private var bannerViewContainer:UIView?
+    private var rewardViewController:UIViewController?
     
     var interestial:GADInterstitial?
     private var testDevices:[String] = [""]
@@ -223,42 +256,58 @@ public class AdManager: NSObject {
         }
         return false
     }
+    
+    // MARK:- Reward Video Ads
+    public func loadAndShowRewardAd(_ adUnit: String, viewController: UIViewController){
+        self.rewardViewController = viewController
+        GADRewardBasedVideoAd.sharedInstance().delegate = self
+        GADRewardBasedVideoAd.sharedInstance().load(GADRequest(), withAdUnitID: adUnit)
+    }
 }
 
+// MARK:- GADBannerViewDelegate
 extension AdManager : GADBannerViewDelegate {
     /// Tells the delegate an ad request loaded an ad.
     public func adViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("adViewDidReceiveAd")
-        bannerDelegate?.adViewDidReceiveAd()
+        delegateBanner?.adViewDidReceiveAd()
     }
     
     /// Tells the delegate an ad request failed.
     public func adView(_ bannerView: GADBannerView,
                        didFailToReceiveAdWithError error: GADRequestError) {
         print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
-        bannerDelegate?.adViewDidFailToReceiveAd()
+        delegateBanner?.adViewDidFailToReceiveAd()
     }
     
     /// Tells the delegate that a full-screen view will be presented in response
     /// to the user clicking on an ad.
     public func adViewWillPresentScreen(_ bannerView: GADBannerView) {
         print("adViewWillPresentScreen")
-        bannerDelegate?.adViewWillPresentScreen()
+        delegateBanner?.adViewWillPresentScreen()
     }
     
     /// Tells the delegate that the full-screen view will be dismissed.
     public func adViewWillDismissScreen(_ bannerView: GADBannerView) {
         print("adViewWillDismissScreen")
-        bannerDelegate?.adViewWillDismissScreen()
+        delegateBanner?.adViewWillDismissScreen()
     }
     
     /// Tells the delegate that the full-screen view has been dismissed.
     public func adViewDidDismissScreen(_ bannerView: GADBannerView) {
         print("adViewDidDismissScreen")
-        bannerDelegate?.adViewDidDismissScreen()
+        delegateBanner?.adViewDidDismissScreen()
+    }
+    
+    /// Tells the delegate that a user click will open another app (such as
+    /// the App Store), backgrounding the current app.
+    public func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        print("adViewWillLeaveApplication")
+        delegateBanner?.adViewWillLeaveApplication()
     }
 }
 
+// MARK:- GADInterstitialDelegate
 extension AdManager : GADInterstitialDelegate {
     /// Tells the delegate an ad request succeeded.
     public func interstitialDidReceiveAd(_ ad: GADInterstitial) {
@@ -289,4 +338,51 @@ extension AdManager : GADInterstitialDelegate {
         print("interstitialDidDismissScreen")
         delegateInterestial?.interestialDidDismissScreen()
     }
+    
+    /// Tells the delegate that a user click will open another app
+    /// (such as the App Store), backgrounding the current app.
+    public func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
+        print("interstitialWillLeaveApplication")
+    }
+}
+
+// MARK:- GADRewardBasedVideoAdDelegate
+extension AdManager : GADRewardBasedVideoAdDelegate {
+    public func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
+                            didRewardUserWith reward: GADAdReward) {
+        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+        delegateReward?.rewardAdGiveRewardToUser(type: reward.type, amount: reward.amount)
+    }
+    
+    public func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
+                            didFailToLoadWithError error: Error) {
+        print("Reward based video ad failed to load.")
+        delegateReward?.rewardAdFailedToLoad()
+    }
+    
+    public func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
+        print("Reward based video ad is received.")
+        delegateReward?.rewardAdDidReceive(rewardViewController: self.rewardViewController)
+    }
+    
+    public func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+        print("Opened reward based video ad.")
+        delegateReward?.rewardAdDidOpen()
+    }
+    
+    public func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+        print("Reward based video ad started playing.")
+        delegateReward?.rewardAdDidStartPlaying()
+    }
+    
+    public func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+        print("Reward based video ad is closed.")
+        delegateReward?.rewardAdDidClose()
+    }
+    
+    public func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+        print("Reward based video ad will leave application.")
+        delegateReward?.rewardAdWillLeaveApplication()
+    }
+
 }

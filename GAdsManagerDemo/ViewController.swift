@@ -27,9 +27,10 @@ import GoogleMobileAds
 
 enum AdIds : String {
     /** REPLACE THE VALUES BY YOUR APP AND AD IDS **/
-    case appId  = "ca-app-pub-1873550908728968~3031818739" //app id
-    case banner = "ca-app-pub-3940256099942544/2934735716" // test id
+    case appId       = "ca-app-pub-1873550908728968~3031818739" // app id
+    case banner      = "ca-app-pub-3940256099942544/2934735716" // test id
     case interestial = "ca-app-pub-3940256099942544/4411468910" // test id
+    case rewarded    = "ca-app-pub-3940256099942544/1712485313" // test id
 }
 
 let testDevices = [
@@ -52,7 +53,7 @@ class ViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
             AdManager.shared.configureWithApp(AdIds.appId.rawValue)
             AdManager.shared.setTestDevics(testDevices: testDevices)
-            AdManager.shared.bannerDelegate = self
+            AdManager.shared.delegateBanner = self
             
             AdManager.shared.createBannerAdInContainerView(viewController: self, unitId: AdIds.banner.rawValue)
             
@@ -88,9 +89,13 @@ class ViewController: UIViewController {
     
     
     @IBAction func showInterestial(_ sender: Any) {
-        let isReady = AdManager.shared.showInterestial(self)
+        let _ = AdManager.shared.showInterestial(self)
     }
     
+    @IBAction func showRewardedAds(_ sender: Any) {
+        AdManager.shared.loadAndShowRewardAd(AdIds.rewarded.rawValue, viewController: self)
+        AdManager.shared.delegateReward = self
+    }
 }
 
 extension ViewController : AdManagerBannerDelegate {
@@ -103,5 +108,11 @@ extension ViewController : AdManagerBannerDelegate {
 extension ViewController : AdManagerInterestialDelegate {
     func interestialWillPresentScreen() {
         print("Interestial is showing")
+    }
+}
+
+extension ViewController : AdManagerRewardDelegate {
+    func rewardAdGiveRewardToUser(type: String, amount: NSDecimalNumber) {
+        print("User Seen the Ads. Now give reward to him")
     }
 }

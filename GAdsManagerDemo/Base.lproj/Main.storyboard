@@ -19,49 +19,52 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner Ads Will Load Automatically" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9N5-L3-1cX">
-                                <rect key="frame" x="31" y="47" width="328" height="21"/>
+                                <rect key="frame" x="31" y="47" width="328" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tGM-aL-zZE">
-                                <rect key="frame" x="88" y="162" width="198" height="30"/>
-                                <state key="normal" title="Remove Banner Permanently"/>
-                                <connections>
-                                    <action selector="removeBannerPermanently:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1ku-8W-b69"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ry2-bC-Qas">
-                                <rect key="frame" x="100" y="124" width="174" height="30"/>
-                                <state key="normal" title="Hide Ads"/>
-                                <connections>
-                                    <action selector="hideAds:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T8q-eK-8n1"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQ4-g6-tyn">
-                                <rect key="frame" x="123" y="200" width="128" height="28"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="128" id="Lah-Rl-Otv"/>
-                                    <constraint firstAttribute="height" constant="28" id="pzZ-gk-0Mp"/>
-                                </constraints>
-                                <state key="normal" title="Show Interestial"/>
-                                <connections>
-                                    <action selector="showInterestial:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MTo-mT-Ccr"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wwC-g6-ZBM">
+                                <rect key="frame" x="88" y="177" width="198" height="135"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ry2-bC-Qas">
+                                        <rect key="frame" x="68" y="0.0" width="62" height="30"/>
+                                        <state key="normal" title="Hide Ads"/>
+                                        <connections>
+                                            <action selector="hideAds:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T8q-eK-8n1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tGM-aL-zZE">
+                                        <rect key="frame" x="0.0" y="35" width="198" height="30"/>
+                                        <state key="normal" title="Remove Banner Permanently"/>
+                                        <connections>
+                                            <action selector="removeBannerPermanently:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1ku-8W-b69"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQ4-g6-tyn">
+                                        <rect key="frame" x="44.5" y="70" width="109" height="30"/>
+                                        <state key="normal" title="Show Interestial"/>
+                                        <connections>
+                                            <action selector="showInterestial:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MTo-mT-Ccr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FJE-3P-vjn">
+                                        <rect key="frame" x="28.5" y="105" width="141" height="30"/>
+                                        <state key="normal" title="Show Rewarded Ads"/>
+                                        <connections>
+                                            <action selector="showRewardedAds:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rxd-HI-HIh"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="tGM-aL-zZE" firstAttribute="centerX" secondItem="ry2-bC-Qas" secondAttribute="centerX" id="3jh-0r-ieG"/>
-                            <constraint firstItem="VQ4-g6-tyn" firstAttribute="top" secondItem="tGM-aL-zZE" secondAttribute="bottom" constant="8" id="AsC-i3-fWa"/>
-                            <constraint firstItem="ry2-bC-Qas" firstAttribute="top" secondItem="9N5-L3-1cX" secondAttribute="bottom" constant="56" id="ITL-Lg-ZK2"/>
                             <constraint firstItem="9N5-L3-1cX" firstAttribute="leading" secondItem="ne8-dt-OUU" secondAttribute="leading" constant="31" id="Ux1-BY-vzg"/>
-                            <constraint firstItem="ne8-dt-OUU" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ry2-bC-Qas" secondAttribute="trailing" constant="101" id="h9y-fQ-YUb"/>
-                            <constraint firstItem="tGM-aL-zZE" firstAttribute="top" secondItem="ry2-bC-Qas" secondAttribute="bottom" constant="8" id="jIj-hr-cG3"/>
-                            <constraint firstItem="ry2-bC-Qas" firstAttribute="leading" relation="lessThanOrEqual" secondItem="ne8-dt-OUU" secondAttribute="leading" constant="100" id="jg1-Yz-FLs"/>
+                            <constraint firstItem="wwC-g6-ZBM" firstAttribute="top" secondItem="9N5-L3-1cX" secondAttribute="bottom" constant="109.5" id="bYm-9h-Bk7"/>
+                            <constraint firstItem="wwC-g6-ZBM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iCO-qS-lhP"/>
                             <constraint firstItem="9N5-L3-1cX" firstAttribute="top" secondItem="ne8-dt-OUU" secondAttribute="top" constant="27" id="kKE-MM-cT2"/>
                             <constraint firstItem="ne8-dt-OUU" firstAttribute="trailing" secondItem="9N5-L3-1cX" secondAttribute="trailing" constant="16" id="qco-cb-4U1"/>
-                            <constraint firstItem="VQ4-g6-tyn" firstAttribute="centerX" secondItem="tGM-aL-zZE" secondAttribute="centerX" id="wzN-D9-yEJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ne8-dt-OUU"/>
                     </view>
