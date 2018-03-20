@@ -1,9 +1,9 @@
 # GAdsManager
 <p align="center">
-    <img src="https://img.shields.io/badge/platform-ios-lightgrey.svg" alt="iOS" />
-    <img src="https://img.shields.io/badge/Swift-4.0-orange.svg" alt="swift 4.0" />
+    <img src="https://img.shields.io/badge/platform-ios-lightgrey.svg" alt="iOS" >
+    <img src="https://img.shields.io/badge/Swift-4.0-orange.svg" alt="swift 4.0" >
     <a href="https://twitter.com/mahmudahsan">
-        <img src="https://img.shields.io/badge/contact%40-mahmudahsan-green.svg" alt="Twitter: @mahmudahsan" />
+        <img src="https://img.shields.io/badge/contact%40-mahmudahsan-green.svg" alt="Twitter: @mahmudahsan" >
     </a>
 </p>
 
@@ -12,6 +12,10 @@ GAdsManager is a library which I created to use all my iOS apps to show ads. The
 </p>
 <p>
 This GAdsManager is a loosely coupled component. So its easy to use in any iOS project. And it is also possible to replace Google AdMob by other 3rd party ad network library. As it's a loosely coupled, it doesn't need to update the ads integration code in the app just need to update GAdsManager layer.
+</p>
+
+<p>
+    <img src="GAdsManager.png" width="500"  alt="How GAdsManage Works">
 </p>
 
 ## Features
@@ -29,10 +33,10 @@ This GAdsManager is a loosely coupled component. So its easy to use in any iOS p
 
 
 <p align="center">
-    <img src="banner.png" width="700" alt="Banner Bottom" />
-    <img src="bannerLand.png" width="700" alt="Banner Bottom Landscape" />
-    <img src="bannerLandiPad.png" width="800" alt="Banner Bottom iPad Landscape" />
-    <img src="bannerPortraitiPad.png" width="500"  alt="Banner Bottom iPad Portrait" />
+    <img src="banner.png" width="700" alt="Banner Bottom" >
+    <img src="bannerLand.png" width="700" alt="Banner Bottom Landscape" >
+    <img src="bannerLandiPad.png" width="800" alt="Banner Bottom iPad Landscape" >
+    <img src="bannerPortraitiPad.png" width="500"  alt="Banner Bottom iPad Portrait" >
 </p>	
 
 ## Examples Banner
@@ -96,7 +100,7 @@ public protocol AdManagerBannerDelegate{
 }
 ```
 <p>
-    <img src="interestial.png" width="300"  alt="Interestial Portrait" />    
+    <img src="interestial.png" width="300"  alt="Interestial Portrait" >    
 </p>
 
 
