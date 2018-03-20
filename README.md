@@ -15,7 +15,7 @@ This GAdsManager is a loosely coupled component. So its easy to use in any iOS p
 </p>
 
 <p>
-    <img src="GAdsManager.png" width="500"  alt="How GAdsManage Works">
+    <img src="GAdsManager.png"  alt="How GAdsManage Works">
 </p>
 
 ## Features
