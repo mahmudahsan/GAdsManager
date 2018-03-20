@@ -128,6 +128,16 @@ public protocol AdManagerRewardDelegate{
 }
 
 ```
+Give reward to user when user completes viewing a video ad
+```swift
+extension ViewController : AdManagerRewardDelegate {
+    func rewardAdGiveRewardToUser(type: String, amount: NSDecimalNumber) {
+        print("User Seen the Ads. Now give reward to him")
+    }
+}
+
+```
+
 <p>
     <img src="rewarded.png" width="300"  alt="Rewarded Video Ads" >    
 </p>
