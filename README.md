@@ -28,11 +28,6 @@ This GAdsManager is a loosely coupled component. So its easy to use in any iOS p
 - [X] Interestial ads 
 - [X] Rewarded Video ads 
 
-## Upcoming Features
-
-- [ ] Native Advanced
-
-
 <p align="center">
     <img src="banner.png" width="700" alt="Banner Bottom" >
     <img src="bannerLand.png" width="700" alt="Banner Bottom Landscape" >
