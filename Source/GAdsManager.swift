@@ -119,7 +119,9 @@ public class AdManager: NSObject {
     }
     
     public func configureWithApp(_ id : String){
-        GADMobileAds.configure(withApplicationID: id)
+        GADMobileAds.sharedInstance().start { status in
+            print("Google Mobile Ads Started: \(status)")
+        }
     }
     
     public func setTestDevics(testDevices: [String]){
@@ -129,7 +131,7 @@ public class AdManager: NSObject {
     
     private func getGADRequest() -> GADRequest{
         let request = GADRequest()
-        request.testDevices = self.testDevices
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = self.testDevices
         return request
     }
     
