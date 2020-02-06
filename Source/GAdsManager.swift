@@ -224,7 +224,7 @@ public class AdManager: NSObject {
         
         self.bannerViewContainer = adContainerview
         viewController.view.addSubview(adContainerview)
-        viewController.view.bringSubview(toFront: adContainerview)
+        viewController.view.bringSubviewToFront(adContainerview)
         
         let bannerView = createAndLoadBannerAd(unitId: unitId, rootViewController: viewController)
         adContainerview.addSubview(bannerView!)
