@@ -52,11 +52,14 @@ public protocol AdManagerInterestialDelegate{
 public protocol AdManagerRewardDelegate{
     func rewardAdGiveRewardToUser(type:String, amount: NSDecimalNumber)
     func rewardAdFailedToLoad()
-    func rewardAdDidReceive(rewardViewController: UIViewController?)
+    func rewardAdDidReceive(
+        rewardViewController: UIViewController?,
+        rewardedAd: GADRewardedAd?,
+        delegate: AdManager
+    )
     func rewardAdDidOpen()
-    func rewardAdDidStartPlaying()
     func rewardAdDidClose()
-    func rewardAdWillLeaveApplication()
+    func rewardAdFailedToPresent()
 }
 
 //default implementation AdManagerBannerDelegate
@@ -83,17 +86,20 @@ public extension AdManagerInterestialDelegate {
 public extension AdManagerRewardDelegate{
     func rewardAdGiveRewardToUser(type:String, amount: NSDecimalNumber) {}
     func rewardAdFailedToLoad() {}
-    func rewardAdDidReceive(rewardViewController: UIViewController?) {
-        if GADRewardBasedVideoAd.sharedInstance().isReady == true {
+    func rewardAdDidReceive(
+        rewardViewController: UIViewController?,
+        rewardedAd: GADRewardedAd?,
+        delegate: AdManager
+    ) {
+        if rewardedAd?.isReady == true {
             if let rewardViewController = rewardViewController {
-                GADRewardBasedVideoAd.sharedInstance().present(fromRootViewController: rewardViewController)
+                rewardedAd?.present(fromRootViewController: rewardViewController, delegate: delegate)
             }
         }
     }
     func rewardAdDidOpen() {}
-    func rewardAdDidStartPlaying() {}
     func rewardAdDidClose() {}
-    func rewardAdWillLeaveApplication() {}
+    func rewardAdFailedToPresent() {}
 }
 
 public class AdManager: NSObject {
@@ -111,6 +117,8 @@ public class AdManager: NSObject {
     private var testDevices:[String] = [""]
     private var adsInterstialDict = [String : GADInterstitial]()
     
+    private var rewardedAd: GADRewardedAd?
+    
     let borderSizeBetweenBannerAndContent:CGFloat = 5
     
     
@@ -118,8 +126,8 @@ public class AdManager: NSObject {
         super.init()
     }
     
-    public func configureWithApp(_ id : String){
-        GADMobileAds.configure(withApplicationID: id)
+    public func configureWithApp(){
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = testDevices
     }
     
     public func setTestDevics(testDevices: [String]){
@@ -129,7 +137,6 @@ public class AdManager: NSObject {
     
     private func getGADRequest() -> GADRequest{
         let request = GADRequest()
-        request.testDevices = self.testDevices
         return request
     }
     
@@ -260,8 +267,23 @@ public class AdManager: NSObject {
     // MARK:- Reward Video Ads
     public func loadAndShowRewardAd(_ adUnit: String, viewController: UIViewController){
         self.rewardViewController = viewController
-        GADRewardBasedVideoAd.sharedInstance().delegate = self
-        GADRewardBasedVideoAd.sharedInstance().load(GADRequest(), withAdUnitID: adUnit)
+        
+        rewardedAd = GADRewardedAd(adUnitID: adUnit)
+        rewardedAd?.load(getGADRequest()) { error in
+          if let error = error {
+            // Handle ad failed to load case.
+            print("Reward based video ad failed to load. \(error.debugDescription)")
+            self.delegateReward?.rewardAdFailedToLoad()
+          } else {
+            // Ad successfully loaded.
+            print("Reward based video ad is received.")
+            self.delegateReward?.rewardAdDidReceive(
+                rewardViewController: self.rewardViewController,
+                rewardedAd: self.rewardedAd,
+                delegate: self
+            )
+          }
+        }
     }
 }
 
@@ -347,42 +369,24 @@ extension AdManager : GADInterstitialDelegate {
 }
 
 // MARK:- GADRewardBasedVideoAdDelegate
-extension AdManager : GADRewardBasedVideoAdDelegate {
-    public func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-                            didRewardUserWith reward: GADAdReward) {
-        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
-        delegateReward?.rewardAdGiveRewardToUser(type: reward.type, amount: reward.amount)
-    }
-    
-    public func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-                            didFailToLoadWithError error: Error) {
-        print("Reward based video ad failed to load.")
-        delegateReward?.rewardAdFailedToLoad()
-    }
-    
-    public func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
-        print("Reward based video ad is received.")
-        delegateReward?.rewardAdDidReceive(rewardViewController: self.rewardViewController)
-    }
-    
-    public func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Opened reward based video ad.")
+extension AdManager : GADRewardedAdDelegate {
+    public func rewardedAdDidPresent(_ rewardedAd: GADRewardedAd) {
+        print("Rewarded ad presented.")
         delegateReward?.rewardAdDidOpen()
     }
-    
-    public func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad started playing.")
-        delegateReward?.rewardAdDidStartPlaying()
+
+    public func rewardedAd(_ rewardedAd: GADRewardedAd, didFailToPresentWithError error: Error) {
+        print("Rewarded ad failed to present.")
+        delegateReward?.rewardAdFailedToPresent()
     }
     
-    public func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad is closed.")
+    public func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
+        print("Rewarded ad dismissed.")
         delegateReward?.rewardAdDidClose()
     }
     
-    public func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad will leave application.")
-        delegateReward?.rewardAdWillLeaveApplication()
+    public func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
+        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+        delegateReward?.rewardAdGiveRewardToUser(type: reward.type, amount: reward.amount)
     }
-
 }

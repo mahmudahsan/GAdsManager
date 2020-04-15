@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GAdsManager"
-  s.version      = "1.1.4"
+  s.version      = "2.0"
   s.summary      = "GAdsManager is a Google Mobile Ads Sdk based library to use all my iOS apps to show ads."
   s.description  = <<-DESC
       GAdsManager is a library which I created to use all my iOS apps to show ads. The librarsoy is developed based on Google Mobile Ads Sdk. Currently I am refactoring my old codebase and improving it to make a reusable library for all. In This library, I am combining all of the fetures over time including banner ads, interestial, reward video etc. so that onc library can handle in different kind of apps.
@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
   s.source_files = "Source/**/*.{swift}"
 
   s.frameworks   = 'UIKit', 'Foundation', 'GoogleMobileAds'
+  s.vendored_frameworks = ["GoogleMobileAds.framework"]
   s.dependency     'GoogleMobileAds'
-  
 end
