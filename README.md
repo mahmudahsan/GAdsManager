@@ -1,7 +1,7 @@
 # GAdsManager
 <p align="center">
     <img src="https://img.shields.io/badge/platform-ios-lightgrey.svg" alt="iOS" >
-    <img src="https://img.shields.io/badge/Swift-4.0-orange.svg" alt="swift 4.0" >
+    <img src="https://img.shields.io/badge/Swift-5.0-orange.svg" alt="swift 4.0" >
     <a href="https://twitter.com/mahmudahsan">
         <img src="https://img.shields.io/badge/contact%40-mahmudahsan-green.svg" alt="Twitter: @mahmudahsan" >
     </a>
