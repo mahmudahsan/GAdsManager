@@ -58,7 +58,6 @@ enum AdIds : String {
     case interestial = "ca-app-pub-3940256099942544/4411468910" // test id
     case rewarded    = "ca-app-pub-3940256099942544/1712485313" // test id
 }
-}
 
 let testDevices = [
     "XX",   //iPhone 5s
