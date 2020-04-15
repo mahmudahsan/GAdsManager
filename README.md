@@ -1,9 +1,19 @@
 # GAdsManager
 <p align="center">
-    <img src="https://img.shields.io/badge/platform-ios-lightgrey.svg" alt="iOS" >
-    <img src="https://img.shields.io/badge/Swift-5.0-orange.svg" alt="swift 4.0" >
+    <a href="http://thinkdiff.net/">
+        <img src="https://img.shields.io/badge/blog-thinkdiff.net-brightgreen.svg" alt="thinkdiff.net" />
+    </a>
+    <a href="https://www.youtube.com/channel/UCtHlgyUw0wLE5Ous9swfFlg">
+        <img src="https://img.shields.io/badge/my-youtube channel-red.svg" alt="Youtube" />
+    </a>
+    <a href="https://pythonbangla.com">
+        <img src="https://img.shields.io/badge/python-bangla.com-orange.svg" alt="pythonbangla.com" />
+    </a>
+    <a href="https://thinkdiff.net/about/">
+        <img src="https://img.shields.io/badge/about-me-yellow.svg" alt="pythonbangla.com" />
+    </a>
     <a href="https://twitter.com/mahmudahsan">
-        <img src="https://img.shields.io/badge/contact%40-mahmudahsan-green.svg" alt="Twitter: @mahmudahsan" >
+        <img src="https://img.shields.io/badge/contact%40-mahmudahsan-blue.svg" alt="Twitter: @mahmudahsan" />
     </a>
 </p>
 
@@ -29,6 +39,7 @@ This GAdsManager is a loosely coupled component. So its easy to use in any iOS p
 - [X] Rewarded Video ads 
 
 <p align="center">
+    <img src="demo.gif" width="255" alt="Demo">
     <img src="banner.png" width="700" alt="Banner Bottom" >
     <img src="bannerLand.png" width="700" alt="Banner Bottom Landscape" >
     <img src="bannerLandiPad.png" width="800" alt="Banner Bottom iPad Landscape" >
@@ -42,11 +53,14 @@ Integrate bottom banner ads within a UIViewController via code:
 import UIKit
 
 enum AdIds : String {
-    /** REPLACE THE VALUES BY YOUR APP AND AD IDS **/
-    case appId       = "ca-app-pub-1873550908728968~3031818739" // app id
+    // FIXME:- Follow the link to know how to add AppId in Info.plist
+    // https://developers.google.com/admob/ios/quick-start#update_your_infoplist
+    
+    // FIXME:-  REPLACE THE VALUES BY YOUR APP AND AD IDS
     case banner      = "ca-app-pub-3940256099942544/2934735716" // test id
     case interestial = "ca-app-pub-3940256099942544/4411468910" // test id
     case rewarded    = "ca-app-pub-3940256099942544/1712485313" // test id
+}
 }
 
 let testDevices = [
@@ -55,14 +69,12 @@ let testDevices = [
 ]
 
 //Call admanager with a delay so that safeAreaGuide value calculated correctly
-DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-    AdManager.shared.configureWithApp(AdIds.appId.rawValue)
-    AdManager.shared.setTestDevics(testDevices: testDevices)
-    AdManager.shared.delegateBanner = self
-    AdManager.shared.createBannerAdInContainerView(viewController: self, unitId: AdIds.banner.rawValue)
-}
-
+AdManager.shared.configureWithApp()
+AdManager.shared.setTestDevics(testDevices: testDevices)
+AdManager.shared.delegateBanner = self
+dManager.shared.createBannerAdInContainerView(viewController: self, unitId: AdIds.banner.rawValue)
 ```
+
 Get notification when banner ad received or failed by implementing the protocol and by setting the delegate:
 ```swift
 public protocol AdManagerBannerDelegate{
@@ -115,11 +127,14 @@ Get notification about Rewarded Video ads
 public protocol AdManagerRewardDelegate{
     func rewardAdGiveRewardToUser(type:String, amount: NSDecimalNumber)
     func rewardAdFailedToLoad()
-    func rewardAdDidReceive(rewardViewController: UIViewController?)
+    func rewardAdDidReceive(
+        rewardViewController: UIViewController?,
+        rewardedAd: GADRewardedAd?,
+        delegate: AdManager
+    )
     func rewardAdDidOpen()
-    func rewardAdDidStartPlaying()
     func rewardAdDidClose()
-    func rewardAdWillLeaveApplication()
+    func rewardAdFailedToPresent()
 }
 
 ```
