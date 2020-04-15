@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 platform :ios, '12.0'
 
 target 'GAdsManager' do
