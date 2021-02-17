@@ -108,7 +108,7 @@ extension ViewController : AdManagerBannerDelegate {
 }
 
 extension ViewController : AdManagerInterestialDelegate {
-    func interestialWillPresentScreen() {
+    func interestialDidPresentScreen() {
         print("Interestial is showing")
     }
 }

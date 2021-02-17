@@ -115,8 +115,6 @@ public class AdManager: NSObject {
     
     private var rewardedAd: GADRewardedAd?
     
-    private var rewardedAd: GADRewardedAd?
-    
     let borderSizeBetweenBannerAndContent:CGFloat = 5
     
     
