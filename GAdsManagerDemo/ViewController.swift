@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         
         //Call admanager with a delay so that safeAreaGuide value calculated correctly
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-            AdManager.shared.configureWithApp(AdIds.appId.rawValue)
+            AdManager.shared.configureWithApp()
             AdManager.shared.setTestDevics(testDevices: testDevices)
             AdManager.shared.delegateBanner = self
             

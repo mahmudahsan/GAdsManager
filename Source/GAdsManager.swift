@@ -41,22 +41,22 @@ public protocol AdManagerBannerDelegate{
 }
 
 public protocol AdManagerInterestialDelegate{
-    func interestialDidReceiveAd()
     func interestialDidFailToReceiveAd()
-    func interestialWillPresentScreen()
-    func interestialWillDismissScreen()
+    func interestialDidPresentScreen()
     func interestialDidDismissScreen()
-    func interestialWillLeaveApplication()
 }
 
 public protocol AdManagerRewardDelegate{
     func rewardAdGiveRewardToUser(type:String, amount: NSDecimalNumber)
     func rewardAdFailedToLoad()
-    func rewardAdDidReceive(rewardViewController: UIViewController?)
+    func rewardAdDidReceive(
+        rewardViewController: UIViewController?,
+        rewardedAd: GADRewardedAd?,
+        delegate: AdManager
+    )
     func rewardAdDidOpen()
-    func rewardAdDidStartPlaying()
     func rewardAdDidClose()
-    func rewardAdWillLeaveApplication()
+    func rewardAdFailedToPresent()
 }
 
 //default implementation AdManagerBannerDelegate
@@ -71,29 +71,31 @@ public extension AdManagerBannerDelegate {
 
 //default implementation AdManagerInterestialDelegate
 public extension AdManagerInterestialDelegate {
-    func interestialDidReceiveAd() {}
     func interestialDidFailToReceiveAd() {}
-    func interestialWillPresentScreen() {}
-    func interestialWillDismissScreen() {}
+    func interestialDidPresentScreen() {}
     func interestialDidDismissScreen() {}
-    func interestialWillLeaveApplication() {}
 }
 
 //default implementation AdManagerRewardDelegate
 public extension AdManagerRewardDelegate{
     func rewardAdGiveRewardToUser(type:String, amount: NSDecimalNumber) {}
     func rewardAdFailedToLoad() {}
-    func rewardAdDidReceive(rewardViewController: UIViewController?) {
-        if GADRewardBasedVideoAd.sharedInstance().isReady == true {
-            if let rewardViewController = rewardViewController {
-                GADRewardBasedVideoAd.sharedInstance().present(fromRootViewController: rewardViewController)
+    func rewardAdDidReceive(
+        rewardViewController: UIViewController?,
+        rewardedAd: GADRewardedAd?,
+        delegate: AdManager
+    ) {
+        if let rewardedAd = rewardedAd, let rewardViewController = rewardViewController {
+            rewardedAd.present(fromRootViewController: rewardViewController) {
+                // give reward
+                let reward = rewardedAd.adReward
+                rewardAdGiveRewardToUser(type: reward.type, amount: reward.amount)
             }
         }
     }
     func rewardAdDidOpen() {}
-    func rewardAdDidStartPlaying() {}
     func rewardAdDidClose() {}
-    func rewardAdWillLeaveApplication() {}
+    func rewardAdFailedToPresent() {}
 }
 
 public class AdManager: NSObject {
@@ -107,9 +109,11 @@ public class AdManager: NSObject {
     private var bannerViewContainer:UIView?
     private var rewardViewController:UIViewController?
     
-    var interestial:GADInterstitial?
+    var interestial:GADInterstitialAd?
     private var testDevices:[String] = [""]
-    private var adsInterstialDict = [String : GADInterstitial]()
+    private var adsInterstialDict = [String : GADInterstitialAd]()
+    
+    private var rewardedAd: GADRewardedAd?
     
     let borderSizeBetweenBannerAndContent:CGFloat = 5
     
@@ -118,10 +122,8 @@ public class AdManager: NSObject {
         super.init()
     }
     
-    public func configureWithApp(_ id : String){
-        GADMobileAds.sharedInstance().start { status in
-            print("Google Mobile Ads Started: \(status)")
-        }
+    public func configureWithApp(){
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = testDevices
     }
     
     public func setTestDevics(testDevices: [String]){
@@ -131,12 +133,11 @@ public class AdManager: NSObject {
     
     private func getGADRequest() -> GADRequest{
         let request = GADRequest()
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = self.testDevices
         return request
     }
     
     private func createAndLoadBannerAd(unitId:String, rootViewController:UIViewController) -> GADBannerView? {
-        let bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
+        let bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         bannerView.tag = ViewTag.adBanner.rawValue
         bannerView.adUnitID = unitId
         bannerView.delegate = self
@@ -241,20 +242,26 @@ public class AdManager: NSObject {
     
     // MARK:- Interestial
     public func createAndLoadInterstitial(_ adUnit: String){
-        interestial = GADInterstitial(adUnitID: adUnit)
-        interestial?.delegate = self
-        interestial?.load(getGADRequest())
+        GADInterstitialAd.load(
+            withAdUnitID: adUnit,
+            request: getGADRequest(),
+            completionHandler: { (interestialAd, error) in
+                if let interstialAd = interestialAd {
+                    self.interestial = interstialAd
+                    self.interestial?.fullScreenContentDelegate = self
+                }
+                else if let error = error {
+                    print("Interestial Ad Loading Error: \(error.localizedDescription)")
+                    self.delegateInterestial?.interestialDidFailToReceiveAd()
+                }
+            }
+        )
     }
     
-    public func showInterestial(_ viewController: UIViewController) -> Bool{
+    public func showInterestial(_ viewController: UIViewController) -> Bool {
         if let interestial = self.interestial{
-            if interestial.isReady {
-                interestial.present(fromRootViewController: viewController)
-                return true
-            }
-            else {
-                print("Ad wasn't ready")
-            }
+            interestial.present(fromRootViewController: viewController)
+            return true
         }
         return false
     }
@@ -262,8 +269,25 @@ public class AdManager: NSObject {
     // MARK:- Reward Video Ads
     public func loadAndShowRewardAd(_ adUnit: String, viewController: UIViewController){
         self.rewardViewController = viewController
-        GADRewardBasedVideoAd.sharedInstance().delegate = self
-        GADRewardBasedVideoAd.sharedInstance().load(GADRequest(), withAdUnitID: adUnit)
+        
+        GADRewardedAd.load(
+            withAdUnitID: adUnit,
+            request: getGADRequest()) { (rewardedAd, error) in
+            if let rewardedAd = rewardedAd {
+                // Ad successfully loaded.
+                print("Reward based video ad is received.")
+                self.rewardedAd = rewardedAd
+                self.delegateReward?.rewardAdDidReceive(
+                    rewardViewController: self.rewardViewController,
+                    rewardedAd: self.rewardedAd,
+                    delegate: self
+                )
+            }
+            else if let error = error {
+                print("Reward based video ad failed to load. \(error.localizedDescription)")
+                self.delegateReward?.rewardAdFailedToLoad()
+            }
+        }
     }
 }
 
@@ -276,27 +300,26 @@ extension AdManager : GADBannerViewDelegate {
     }
     
     /// Tells the delegate an ad request failed.
-    public func adView(_ bannerView: GADBannerView,
-                       didFailToReceiveAdWithError error: GADRequestError) {
+    public func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
         delegateBanner?.adViewDidFailToReceiveAd()
     }
     
     /// Tells the delegate that a full-screen view will be presented in response
     /// to the user clicking on an ad.
-    public func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+    public func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
         print("adViewWillPresentScreen")
         delegateBanner?.adViewWillPresentScreen()
     }
     
     /// Tells the delegate that the full-screen view will be dismissed.
-    public func adViewWillDismissScreen(_ bannerView: GADBannerView) {
+    public func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
         print("adViewWillDismissScreen")
         delegateBanner?.adViewWillDismissScreen()
     }
     
     /// Tells the delegate that the full-screen view has been dismissed.
-    public func adViewDidDismissScreen(_ bannerView: GADBannerView) {
+    public func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
         print("adViewDidDismissScreen")
         delegateBanner?.adViewDidDismissScreen()
     }
@@ -310,81 +333,22 @@ extension AdManager : GADBannerViewDelegate {
 }
 
 // MARK:- GADInterstitialDelegate
-extension AdManager : GADInterstitialDelegate {
-    /// Tells the delegate an ad request succeeded.
-    public func interstitialDidReceiveAd(_ ad: GADInterstitial) {
-        print("interstitialDidReceiveAd")
-        delegateInterestial?.interestialDidReceiveAd()
+extension AdManager : GADFullScreenContentDelegate {
+    /// Tells the delegate that a fullscreen ad presented.
+    public func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("interstitialDidPresentScreen")
+        delegateInterestial?.interestialDidPresentScreen()
     }
     
-    /// Tells the delegate an ad request failed.
-    public func interstitial(_ ad: GADInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
-        print("interstitial:didFailToReceiveAdWithError: \(error.localizedDescription)")
-        delegateInterestial?.interestialDidFailToReceiveAd()
-    }
-    
-    /// Tells the delegate that an interstitial will be presented.
-    public func interstitialWillPresentScreen(_ ad: GADInterstitial) {
-        print("interstitialWillPresentScreen")
-        delegateInterestial?.interestialWillPresentScreen()
-    }
-    
-    /// Tells the delegate the interstitial is to be animated off the screen.
-    public func interstitialWillDismissScreen(_ ad: GADInterstitial) {
-        print("interstitialWillDismissScreen")
-        delegateInterestial?.interestialWillDismissScreen()
-    }
-    
-    /// Tells the delegate the interstitial had been animated off the screen.
-    public func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+    /// Tells the delegate the fullscreen ad had been animated off the screen.
+    public func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("interstitialDidDismissScreen")
         delegateInterestial?.interestialDidDismissScreen()
     }
     
-    /// Tells the delegate that a user click will open another app
-    /// (such as the App Store), backgrounding the current app.
-    public func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
-        print("interstitialWillLeaveApplication")
+    /// Tells the delegate a fullscreen ad request failed.
+    public func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+        print("interstitial:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        delegateInterestial?.interestialDidFailToReceiveAd()
     }
-}
-
-// MARK:- GADRewardBasedVideoAdDelegate
-extension AdManager : GADRewardBasedVideoAdDelegate {
-    public func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-                            didRewardUserWith reward: GADAdReward) {
-        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
-        delegateReward?.rewardAdGiveRewardToUser(type: reward.type, amount: reward.amount)
-    }
-    
-    public func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-                            didFailToLoadWithError error: Error) {
-        print("Reward based video ad failed to load.")
-        delegateReward?.rewardAdFailedToLoad()
-    }
-    
-    public func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
-        print("Reward based video ad is received.")
-        delegateReward?.rewardAdDidReceive(rewardViewController: self.rewardViewController)
-    }
-    
-    public func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Opened reward based video ad.")
-        delegateReward?.rewardAdDidOpen()
-    }
-    
-    public func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad started playing.")
-        delegateReward?.rewardAdDidStartPlaying()
-    }
-    
-    public func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad is closed.")
-        delegateReward?.rewardAdDidClose()
-    }
-    
-    public func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad will leave application.")
-        delegateReward?.rewardAdWillLeaveApplication()
-    }
-
 }
