@@ -26,8 +26,10 @@ import UIKit
 import GoogleMobileAds
 
 enum AdIds : String {
-    /** REPLACE THE VALUES BY YOUR APP AND AD IDS **/
-    case appId       = "ca-app-pub-1873550908728968~3031818739" // app id
+    // FIXME:- Follow the link to know how to add AppId in Info.plist
+    // https://developers.google.com/admob/ios/quick-start#update_your_infoplist
+    
+    // FIXME:-  REPLACE THE VALUES BY YOUR APP AND AD IDS
     case banner      = "ca-app-pub-3940256099942544/2934735716" // test id
     case interestial = "ca-app-pub-3940256099942544/4411468910" // test id
     case rewarded    = "ca-app-pub-3940256099942544/1712485313" // test id
